@@ -2,6 +2,9 @@ version: "3.9"
 
 services:
 
+  # ======================
+  # DATABASE
+  # ======================
   db:
     image: postgres:16
     container_name: barber_db
@@ -15,6 +18,9 @@ services:
     ports:
       - "5432:5432"
 
+  # ======================
+  # BACKEND (DJANGO)
+  # ======================
   backend:
     build: ./Barber_Tech_Backend
     container_name: barber_backend
@@ -32,6 +38,9 @@ services:
     depends_on:
       - db
 
+  # ======================
+  # FRONTEND (REACT)
+  # ======================
   frontend:
     build: ./Barber_Tech_Frontend
     container_name: barber_frontend
@@ -40,8 +49,13 @@ services:
       - /app/node_modules
     ports:
       - "5173:5173"
+    environment:
+      VITE_API_URL: http://backend:8000/api/
     depends_on:
       - backend
 
+# ======================
+# VOLUMES
+# ======================
 volumes:
   postgres_data:
