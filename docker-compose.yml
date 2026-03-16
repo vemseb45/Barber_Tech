@@ -24,11 +24,6 @@ services:
   backend:
     build: ./Barber_Tech_Backend
     container_name: barber_backend
-    command: >
-      sh -c "
-      python manage.py migrate &&
-      python manage.py runserver 0.0.0.0:8000
-      "
     volumes:
       - ./Barber_Tech_Backend:/app
     ports:
@@ -37,6 +32,13 @@ services:
       - ./Barber_Tech_Backend/.env
     depends_on:
       - db
+    command: >
+      sh -c "
+      echo 'Waiting for postgres...' &&
+      sleep 10 &&
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000
+      "
 
   # ======================
   # FRONTEND (REACT)
