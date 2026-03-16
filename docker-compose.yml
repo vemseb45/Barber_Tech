@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+
+  db:
+    image: postgres:16
+    container_name: barber_db
+    restart: always
+    environment:
+      POSTGRES_DB: barber_tech
+      POSTGRES_USER: barber_user
+      POSTGRES_PASSWORD: Barber_pass_123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./Barber_Tech_Backend
+    container_name: barber_backend
+    command: >
+      sh -c "
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000
+      "
+    volumes:
+      - ./Barber_Tech_Backend:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./Barber_Tech_Backend/.env
+    depends_on:
+      - db
+
+  frontend:
+    build: ./Barber_Tech_Frontend
+    container_name: barber_frontend
+    volumes:
+      - ./Barber_Tech_Frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
