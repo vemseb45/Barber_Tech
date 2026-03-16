@@ -1,0 +1,8 @@
+[submodule "Barber_Tech_Backend"]
+	path = Barber_Tech_Backend
+	url = https://github.com/vemseb45/Barber_Tech_Backend.git
+	branch = development
+[submodule "Barber_Tech_Frontend"]
+	path = Barber_Tech_Frontend
+	url = https://github.com/vemseb45/Barber_Tech_Frontend.git
+	branch = development
